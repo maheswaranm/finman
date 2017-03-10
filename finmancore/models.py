@@ -28,6 +28,7 @@ class Transaction(models.Model):
     currency = models.CharField(max_length=3,default=None, blank=True, null=True)
 
     #This is so I can find type when displaying on template
+    @property
     def type_of_transaction(self):
         return self.__class__.__name__
 
