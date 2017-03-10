@@ -32,6 +32,9 @@ class Transaction(models.Model):
     def type_of_transaction(self):
         return self.__class__.__name__
 
+    def __str__(self):
+        return "<Transaction : "+str(self.id)+">"
+
     objects = InheritanceManager()
 
 class Transfer(Transaction):
