@@ -2,13 +2,14 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
-from .models import Account
+from .models import Account,Transaction
 
 # Create your views here.
 @login_required(login_url='/login')
 def home_view(request):
     accounts = Account.objects.all()
-    context = {'accounts': accounts}
+    transactions = Transaction.objects.all().select_subclasses().order_by('-time_of_transaction')[:20]
+    context = {'accounts': accounts, 'transactions':transactions}
     return render(request,'home.html',context)
 
 @login_required(login_url='/login')

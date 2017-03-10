@@ -1,6 +1,38 @@
 {% extends "base.html" %}
 
 {% block content %}
-content block
+<div align="center">here - a graph showing the net worth change over time</div>
+<br/>
+<table border="1" width="80%" align="center">
+  <tr>
+    <th>ID</th>
+    <th>From</th>
+    <th>To</th>
+    <th>Time</th>
+    <th>Amount</th>
+  </tr>
+  {% for this_transaction in transactions %}
+  <tr>
+    <td>{{ this_transaction.id }} {{ this_transaction.type_of_transaction }}</td>
 
+    {% if this_transaction.type_of_transaction == "Credit" %}
+      <td>{{ this_transaction.from_account }}</td>
+    {% else %}
+      <td><a href="account/{{ this_transaction.from_account.id }}">{{ this_transaction.from_account.label }}</a></td>
+    {% endif %}
+
+    {% if this_transaction.type_of_transaction == "Debit" %}
+      <td>{{ this_transaction.to_account }}</td>
+    {% else %}
+      <td><a href="account/{{ this_transaction.to_account.id }}">{{ this_transaction.to_account.label }}</a></td>
+    {% endif %}
+
+
+    <td>{{ this_transaction.time_of_transaction }}</td>
+
+    <td>{{ this_transaction.amount }} {{ this_transaction.currency }}</td>
+    
+  </tr>
+  {% endfor %}
+</table>
 {% endblock %}
