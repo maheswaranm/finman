@@ -1,2 +1,13 @@
-Logo | Name | Accounts> | Statistics | <a href='logout'>Logout </a>
+Logo | Name | Accounts> | Statistics | {{ user.username }}>
 <br/>
+{% for this_account in accounts %}
+<a href= "/account/{{ this_account.id }}">{{ this_account.label }}</a> |
+{% endfor %}
+<a href= "/account/new">Create New Account</a> |
+<a href= "/account/manage">Manage All Accounts</a> |
+<br/>
+<a href= "profile/changeuser">Change Username</a> |
+<a href= "profile/changepass">Change Password</a> |
+<a href= "categories/manage">Manage Categories</a> |
+<a href='logout'>Logout </a>
+<hr>
