@@ -1,11 +1,26 @@
+import itertools
+import operator
 from django.db import models
+from django.db.models import Q
+
 from model_utils.managers import InheritanceManager
 
+
 # Create your models here.
+class AccountManager(models.Manager):
+    def getTransactionsForAccount(self,account_id):
+        allcredits = Credit.objects.filter(to_account__id=account_id)
+        alldebits = Debit.objects.filter(from_account__id=account_id)
+        alltransfers = Transfer.objects.filter(Q(from_account__id=account_id) | Q(to_account__id=account_id))
+        transactions = sorted(itertools.chain(allcredits,alldebits,alltransfers),key=operator.attrgetter('time_of_transaction'),reverse=True)
+        return transactions
+
 class Account(models.Model):
     label = models.CharField(max_length=100)
     currency = models.CharField(max_length=3)
     balance = models.DecimalField(max_digits=10,decimal_places=2,default=0)
+
+    objects = AccountManager()
 
     def __str__(self):
         return "<Account : "+self.label+">"
