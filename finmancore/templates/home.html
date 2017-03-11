@@ -3,6 +3,10 @@
 {% block content %}
 <div align="center">here - a graph showing the net worth change over time</div>
 <br/>
+<a href="transaction/new">Add new Transaction ></a>
+<br/>
+<a href="credit/new">Add new Credit</a>  |  <a href="debit/new">Add new Debit</a> | <a href="transfer/new">Add new Transfer</a>
+<br/>
 <table border="1" width="80%" align="center">
   <tr>
     <th>ID</th>
@@ -31,8 +35,11 @@
     <td>{{ this_transaction.time_of_transaction }}</td>
 
     <td>{{ this_transaction.amount }} {{ this_transaction.currency }}</td>
-    
+
   </tr>
   {% endfor %}
 </table>
+<br/>
+
+<div align="right"><a href="transaction/all">View all Transactions</a></div>
 {% endblock %}

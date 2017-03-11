@@ -35,3 +35,23 @@ def change_pass(request):
 @login_required(login_url='/login')
 def category_manage(request):
     return HttpResponse('category manage page')
+
+@login_required(login_url='/login')
+def transaction_new(request):
+    return HttpResponse('new transaction page')
+
+@login_required(login_url='/login')
+def transaction_all(request):
+    return HttpResponse('all transactions page')
+
+@login_required(login_url='/login')
+def credit_new(request):
+    return HttpResponse('new credit page')
+
+@login_required(login_url='/login')
+def debit_new(request):
+    return HttpResponse('new debit page')
+
+@login_required(login_url='/login')
+def transfer_new(request):
+    return HttpResponse('new transfer page')
