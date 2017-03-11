@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="/transaction/new">Add new Transaction ></a>
+<br/>
+<a href="/credit/new">Add new Credit</a>  |  <a href="/debit/new">Add new Debit</a> | <a href="/transfer/new">Add new Transfer</a>
+<br/>
+<div align="center">All transactions for {{ this_account.label }}</div>
+<table border="1" width="80%" align="center">
+  <tr>
+    <th>ID</th>
+    <th>From</th>
+    <th>To</th>
+    <th>Time</th>
+    <th>Amount</th>
+    <th>Action</th>
+  </tr>
+  {% for this_transaction in transactions %}
+  <tr>
+    <td>{{ this_transaction.id }} {{ this_transaction.type_of_transaction }}</td>
+
+    {% if this_transaction.type_of_transaction == "Credit" %}
+      <td>{{ this_transaction.from_account }}</td>
+    {% else %}
+      <td><a href="/account/{{ this_transaction.from_account.id }}">{{ this_transaction.from_account.label }}</a></td>
+    {% endif %}
+
+    {% if this_transaction.type_of_transaction == "Debit" %}
+      <td>{{ this_transaction.to_account }}</td>
+    {% else %}
+      <td><a href="/account/{{ this_transaction.to_account.id }}">{{ this_transaction.to_account.label }}</a></td>
+    {% endif %}
+
+
+    <td>{{ this_transaction.time_of_transaction }}</td>
+
+    <td>{{ this_transaction.amount }} {{ this_transaction.currency }}</td>
+
+    <td><a href="/transaction/update/{{ this_transaction.id }}">Update</a></td>
+  </tr>
+  {% endfor %}
+</table>
+<br/>
+{% endblock %}

@@ -14,7 +14,11 @@ def home_view(request):
 
 @login_required(login_url='/login')
 def account_view(request,account_id):
-    return HttpResponse('account page for '+account_id)
+    accounts = Account.objects.all()
+    transactions = Account.objects.getTransactionsForAccount(account_id)
+    this_account = Account.objects.get(pk=account_id)
+    context = {'accounts': accounts, 'transactions':transactions,'this_account':this_account}
+    return render(request,'accounts.html',context)
 
 @login_required(login_url='/login')
 def account_manage(request):
