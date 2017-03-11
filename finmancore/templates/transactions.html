@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div align="center">here - a graph showing the net worth change over time</div>
-<br/>
 <a href="/transaction/new">Add new Transaction ></a>
 <br/>
 <a href="/credit/new">Add new Credit</a>  |  <a href="/debit/new">Add new Debit</a> | <a href="/transfer/new">Add new Transfer</a>
@@ -14,6 +12,7 @@
     <th>To</th>
     <th>Time</th>
     <th>Amount</th>
+    <th>Action</th>
   </tr>
   {% for this_transaction in transactions %}
   <tr>
@@ -36,10 +35,9 @@
 
     <td>{{ this_transaction.amount }} {{ this_transaction.currency }}</td>
 
+    <td><a href="/transaction/update/{{ this_transaction.id }}">Update</a></td>
   </tr>
   {% endfor %}
 </table>
 <br/>
-
-<div align="right"><a href="transaction/all">View all Transactions</a></div>
 {% endblock %}

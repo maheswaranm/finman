@@ -42,7 +42,10 @@ def transaction_new(request):
 
 @login_required(login_url='/login')
 def transaction_all(request):
-    return HttpResponse('all transactions page')
+    accounts = Account.objects.all()
+    transactions = Transaction.objects.all().select_subclasses().order_by('-time_of_transaction')
+    context = {'accounts': accounts, 'transactions':transactions}
+    return render(request,'transactions.html',context)
 
 @login_required(login_url='/login')
 def credit_new(request):
