@@ -10,7 +10,6 @@ urlpatterns = [
     url(r'^profile/changeuser',views.change_user),
     url(r'^profile/changepass',views.change_pass),
     url(r'^categories/manage',views.category_manage),
-    url(r'^transaction/new',views.transaction_new),
     url(r'^transaction/all',views.transaction_all),
     url(r'^credit/new',views.credit_new),
     url(r'^debit/new',views.debit_new),

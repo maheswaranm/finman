@@ -55,10 +55,6 @@ def category_manage(request):
     return HttpResponse('category manage page')
 
 @login_required(login_url='/login')
-def transaction_new(request):
-    return HttpResponse('new transaction page')
-
-@login_required(login_url='/login')
 def transaction_all(request):
     accounts = Account.objects.all()
     transactions = Transaction.objects.all().select_subclasses().order_by('-time_of_transaction')
