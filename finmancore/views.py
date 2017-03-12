@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
+import logging
+
 from .models import Account,Transaction
+from .forms import AccountForm, CreditForm, DebitForm, TransferForm
 
 # Create your views here.
 @login_required(login_url='/login')
@@ -26,7 +29,16 @@ def account_manage(request):
 
 @login_required(login_url='/login')
 def account_new(request):
-    return HttpResponse('new account page')
+    accounts = Account.objects.all()
+    if request.method == "POST":
+        form = AccountForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect('/')
+    else:
+        form = AccountForm()
+    context={'accounts': accounts,'form':form,'form_action':'/account/new'}
+    return render(request,'create_update_form.html',context)
 
 @login_required(login_url='/login')
 def change_user(request):
@@ -53,12 +65,54 @@ def transaction_all(request):
 
 @login_required(login_url='/login')
 def credit_new(request):
-    return HttpResponse('new credit page')
+    logger = logging.getLogger('test')
+
+    accounts = Account.objects.all()
+    if request.method == "POST":
+        form = CreditForm(request.POST)
+        if form.is_valid():
+            logger.info('saving')
+            form.save()
+            return redirect('/')
+        else:
+            logger.info('errors')
+    else:
+        form = CreditForm()
+    context={'accounts': accounts,'form':form, 'form_action':'/credit/new'}
+    return render(request,'create_update_form.html',context)
 
 @login_required(login_url='/login')
 def debit_new(request):
-    return HttpResponse('new debit page')
+    logger = logging.getLogger('test')
+
+    accounts = Account.objects.all()
+    if request.method == "POST":
+        form = DebitForm(request.POST)
+        if form.is_valid():
+            logger.info('saving')
+            form.save()
+            return redirect('/')
+        else:
+            logger.info('errors')
+    else:
+        form = DebitForm()
+    context={'accounts': accounts,'form':form, 'form_action':'/debit/new'}
+    return render(request,'create_update_form.html',context)
 
 @login_required(login_url='/login')
 def transfer_new(request):
-    return HttpResponse('new transfer page')
+    logger = logging.getLogger('test')
+
+    accounts = Account.objects.all()
+    if request.method == "POST":
+        form = TransferForm(request.POST)
+        if form.is_valid():
+            logger.info('saving')
+            form.save()
+            return redirect('/')
+        else:
+            logger.info('errors')
+    else:
+        form = TransferForm()
+    context={'accounts': accounts,'form':form, 'form_action':'/transfer/new'}
+    return render(request,'create_update_form.html',context)
