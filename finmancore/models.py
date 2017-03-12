@@ -1,7 +1,11 @@
 import itertools
 import operator
+
+from decimal import Decimal
+
 from django.db import models
 from django.db.models import Q
+from django.db.models import Sum
 
 from model_utils.managers import InheritanceManager
 
@@ -18,9 +22,17 @@ class AccountManager(models.Manager):
 class Account(models.Model):
     label = models.CharField(max_length=100)
     currency = models.CharField(max_length=3)
-    balance = models.DecimalField(max_digits=10,decimal_places=2,default=0)
 
     objects = AccountManager()
+
+    @property
+    def balance(self):
+        credits = Credit.objects.filter(to_account__id=self.id).aggregate(Sum('amount')).get('amount__sum', 0.00) or Decimal(0)
+        debits = Debit.objects.filter(from_account__id=self.id).aggregate(Sum('amount')).get('amount__sum', 0.00) or Decimal(0)
+        transfer_in = Transfer.objects.filter(to_account__id=self.id).aggregate(Sum('amount')).get('amount__sum', 0.00) or Decimal(0)
+        transfer_out = Transfer.objects.filter(from_account__id=self.id).aggregate(Sum('amount')).get('amount__sum', 0.00) or Decimal(0)
+        total = credits - debits + transfer_in - transfer_out
+        return total
 
     def __str__(self):
         return "<Account : "+self.label+">"
