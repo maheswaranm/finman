@@ -118,3 +118,32 @@ def transfer_new(request):
         form = TransferForm()
     context={'accounts': accounts,'form':form, 'form_action':'/transfer/new'}
     return render(request,'create_update_form.html',context)
+
+@login_required(login_url='/login')
+def transaction_update(request,transaction_id):
+    accounts = Account.objects.all()
+    this_transaction = Transaction.objects.select_subclasses().get(pk=transaction_id)
+
+    print(this_transaction)
+
+    if request.method == "POST":
+        if this_transaction.type_of_transaction == 'Credit':
+            form = CreditForm(request.POST,instance=this_transaction);
+        if this_transaction.type_of_transaction == 'Debit':
+            form = DebitForm(request.POST,instance=this_transaction);
+        if this_transaction.type_of_transaction == 'Transfer':
+            form = TransferForm(request.POST,instance=this_transaction);
+        if form.is_valid():
+            print('saving')
+            form.save()
+            return redirect('/')
+    else:
+        if this_transaction.type_of_transaction == 'Credit':
+            form = CreditForm(instance=this_transaction);
+        if this_transaction.type_of_transaction == 'Debit':
+            form = DebitForm(instance=this_transaction);
+        if this_transaction.type_of_transaction == 'Transfer':
+            form = TransferForm(instance=this_transaction);
+
+    context={'accounts': accounts,'form':form, 'form_action':'/transaction/update/'+str(this_transaction.id)}
+    return render(request,'create_update_form.html',context)

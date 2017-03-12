@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^credit/new',views.credit_new),
     url(r'^debit/new',views.debit_new),
     url(r'^transfer/new',views.transfer_new),
+    url(r'^transaction/update/(?P<transaction_id>[0-9]+)',views.transaction_update),
 ]
