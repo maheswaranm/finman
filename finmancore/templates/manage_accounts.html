@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+<table border="1" align="center" width="80%">
+  <tr>
+    <th>Label</th>
+    <th>Currency</th>
+    <th>Balance</th>
+    <th>Action</th>
+  </tr>
+
+  {% for this_account in accounts %}
+
+  <tr>
+    <td><a href= "/account/{{ this_account.id }}">{{ this_account.label }}</a></td>
+    <td>{{ this_account.currency }}</td>
+    <td>{{ this_account.balance }}</td>
+    <td><a href="/account/update/{{ this_account.id }}">Update</a></td>
+  </tr>
+
+  {% endfor %}
+
+</table>
+
+{% endblock %}

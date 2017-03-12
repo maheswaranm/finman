@@ -25,7 +25,9 @@ def account_view(request,account_id):
 
 @login_required(login_url='/login')
 def account_manage(request):
-    return HttpResponse('account manage page')
+    accounts = Account.objects.all()
+    context = {'accounts': accounts}
+    return render(request,'manage_accounts.html',context)
 
 @login_required(login_url='/login')
 def account_new(request):
