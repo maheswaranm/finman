@@ -143,3 +143,21 @@ def transaction_update(request,transaction_id):
 
     context={'accounts': accounts,'form':form, 'form_action':'/transaction/update/'+str(this_transaction.id)}
     return render(request,'create_update_form.html',context)
+
+
+@login_required(login_url='/login')
+def account_update(request,account_id):
+    accounts = Account.objects.all()
+    this_account = accounts.get(pk=account_id)
+
+    if request.method == "POST":
+        form = AccountForm(request.POST, instance = this_account)
+        if form.is_valid():
+            print('saving')
+            form.save()
+            return redirect('/')
+    else:
+        form = AccountForm(instance=this_account)
+
+    context={'accounts': accounts,'form':form, 'form_action':'/account/update/'+str(this_account.id)}
+    return render(request,'create_update_form.html',context)
