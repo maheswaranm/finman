@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="/category/new">Create New Category</a>
+
+ <div align="center">List of categories</div>
+
+<table border="1" align="center">
+  <tr>
+    <th>Category</th>
+    <th>Parent Category</th>
+    <th>Update</th>
+  </tr>
+{% for this_category in categories %}
+  <tr>
+    <td>{{ this_category.label }}</td>
+    <td>{{ this_category.parent.label }}</td>
+    <td><a href="/category/update/{{ this_category.id }}">Update</a></td>
+  </tr>
+{% endfor %}
+</table>
+
+{% endblock %}

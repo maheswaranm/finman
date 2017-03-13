@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 
-from finmancore.models import Account,Credit,Debit,Transfer
+from finmancore.models import Account,Credit,Debit,Transfer,Category
 
 class AccountForm(ModelForm):
     class Meta:
@@ -20,4 +20,9 @@ class DebitForm(ModelForm):
 class TransferForm(ModelForm):
     class Meta:
         model = Transfer
+        exclude = []
+
+class CategoryForm(ModelForm):
+    class Meta:
+        model = Category
         exclude = []

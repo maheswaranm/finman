@@ -4,8 +4,8 @@ from django.http import HttpResponse
 
 import logging
 
-from .models import Account,Transaction
-from .forms import AccountForm, CreditForm, DebitForm, TransferForm
+from .models import Account,Transaction, Category
+from .forms import AccountForm, CreditForm, DebitForm, TransferForm, CategoryForm
 
 # Create your views here.
 @login_required(login_url='/login')
@@ -52,7 +52,10 @@ def change_pass(request):
 
 @login_required(login_url='/login')
 def category_manage(request):
-    return HttpResponse('category manage page')
+    accounts = Account.objects.all()
+    categories = Category.objects.all()
+    context={'accounts': accounts, 'categories':categories}
+    return render(request,'categories.html',context)
 
 @login_required(login_url='/login')
 def transaction_all(request):
@@ -160,4 +163,36 @@ def account_update(request,account_id):
         form = AccountForm(instance=this_account)
 
     context={'accounts': accounts,'form':form, 'form_action':'/account/update/'+str(this_account.id)}
+    return render(request,'create_update_form.html',context)
+
+@login_required(login_url='/login')
+def category_new(request):
+    accounts = Account.objects.all()
+    if request.method == "POST":
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+        else:
+            logger.info('errors')
+    else:
+        form = CategoryForm()
+    context={'accounts': accounts,'form':form, 'form_action':'/category/new'}
+    return render(request,'create_update_form.html',context)
+
+@login_required(login_url='/login')
+def category_update(request,category_id):
+    accounts = Account.objects.all()
+    this_category = Category.objects.get(pk=category_id)
+
+    if request.method == "POST":
+        form = CategoryForm(request.POST, instance = this_category)
+        if form.is_valid():
+            print('saving')
+            form.save()
+            return redirect('/')
+    else:
+        form = CategoryForm(instance=this_category)
+
+    context={'accounts': accounts,'form':form, 'form_action':'/category/update/'+str(this_category.id)}
     return render(request,'create_update_form.html',context)

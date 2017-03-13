@@ -16,4 +16,6 @@ urlpatterns = [
     url(r'^transfer/new',views.transfer_new),
     url(r'^transaction/update/(?P<transaction_id>[0-9]+)',views.transaction_update),
     url(r'^account/update/(?P<account_id>[0-9]+)',views.account_update),
+    url(r'^category/new',views.category_new),
+    url(r'^category/update/(?P<category_id>[0-9]+)',views.category_update),
 ]
