@@ -1,11 +1,14 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+
 
 import logging
 
 from .models import Account,Transaction, Category
-from .forms import AccountForm, CreditForm, DebitForm, TransferForm, CategoryForm
+from .forms import AccountForm, CreditForm, DebitForm, TransferForm, CategoryForm, UserNameChangeForm
 
 # Create your views here.
 @login_required(login_url='/login')
@@ -44,11 +47,28 @@ def account_new(request):
 
 @login_required(login_url='/login')
 def change_user(request):
-    return HttpResponse('change user view')
+    accounts = Account.objects.all()
+    if request.method == 'POST':
+        form = UserNameChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    else:
+        form = UserNameChangeForm(instance = request.user)
+    return render(request, 'change_user.html', {'accounts':accounts,'form': form})
 
 @login_required(login_url='/login')
 def change_pass(request):
-    return HttpResponse('change pass view')
+    accounts = Account.objects.all()
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect('/')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'change_user.html', {'accounts':accounts,'form': form})
 
 @login_required(login_url='/login')
 def category_manage(request):
