@@ -1,45 +1,68 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
+<div class="row">
+  <div align="center">here - a graph showing the net worth change over time</div>
+</div>
+<div class="row">
+    <div class="col-md-1">
+        <script type="text/javascript">
+            $(function() {
+                $('[data-toggle="popover"]').popover({'container':'body'})
+            })
+        </script>
+        <button type="button" class="btn btn-default" data-toggle="popover" data-placement="right"
+          data-content='
+            <a title="Credit" href="/credit/new"><span class="glyphicon glyphicon-save" style="font-size:30px"></span></a>
+            <a title="Debit" href="/debit/new"><span class="glyphicon glyphicon-open" style="font-size:30px"></span></a>
+            <a title="Transfer" href="/transfer/new"><span class="glyphicon glyphicon-transfer" style="font-size:30px"></span></a>
+          '
+          data-html="true" title="Add Transaction">
+          <span class="glyphicon glyphicon-plus-sign" style="font-size:40px"></span>
+        </button>
+    </div>
+    <div class="col-md-11">
+      Last 20 transactions
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        <table class="table table-striped">
+            <tr>
+                <th>ID</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Time</th>
+                <th>Amount</th>
+            </tr>
+            {% for this_transaction in transactions %}
+            <tr>
+                <td>{{ this_transaction.id }} {{ this_transaction.type_of_transaction }}</td>
 
-{% block content %}
-<div align="center">here - a graph showing the net worth change over time</div>
-<br/>
-Add new Transaction >
-<br/>
-<a href="/credit/new">Add new Credit</a>  |  <a href="/debit/new">Add new Debit</a> | <a href="/transfer/new">Add new Transfer</a>
-<br/>
-<table border="1" width="80%" align="center">
-  <tr>
-    <th>ID</th>
-    <th>From</th>
-    <th>To</th>
-    <th>Time</th>
-    <th>Amount</th>
-  </tr>
-  {% for this_transaction in transactions %}
-  <tr>
-    <td>{{ this_transaction.id }} {{ this_transaction.type_of_transaction }}</td>
-
-    {% if this_transaction.type_of_transaction == "Credit" %}
-      <td>{{ this_transaction.from_account }}</td>
-    {% else %}
-      <td><a href="/account/{{ this_transaction.from_account.id }}">{{ this_transaction.from_account.label }}</a></td>
-    {% endif %}
-
-    {% if this_transaction.type_of_transaction == "Debit" %}
-      <td>{{ this_transaction.to_account }}</td>
-    {% else %}
-      <td><a href="/account/{{ this_transaction.to_account.id }}">{{ this_transaction.to_account.label }}</a></td>
-    {% endif %}
+                {% if this_transaction.type_of_transaction == "Credit" %}
+                <td>{{ this_transaction.from_account }}</td>
+                {% else %}
+                <td><a href="/account/{{ this_transaction.from_account.id }}">{{ this_transaction.from_account.label }}</a></td>
+                {% endif %} {% if this_transaction.type_of_transaction == "Debit" %}
+                <td>{{ this_transaction.to_account }}</td>
+                {% else %}
+                <td><a href="/account/{{ this_transaction.to_account.id }}">{{ this_transaction.to_account.label }}</a></td>
+                {% endif %}
 
 
-    <td>{{ this_transaction.time_of_transaction }}</td>
+                <td>{{ this_transaction.time_of_transaction }}</td>
 
-    <td>{{ this_transaction.amount }} {{ this_transaction.currency }}</td>
+                <td>{{ this_transaction.amount }} {{ this_transaction.currency }}</td>
 
-  </tr>
-  {% endfor %}
-</table>
-<br/>
-
-<div align="right"><a href="transaction/all">View all Transactions</a></div>
+            </tr>
+            {% endfor %}
+        </table>
+        <br/>
+    </div>
+</div>
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-11">
+    <a href="transaction/all" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-list"></span> View all Transactions</a>
+  </div>
+</div>
 {% endblock %}
