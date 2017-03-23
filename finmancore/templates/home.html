@@ -3,8 +3,13 @@
 {% block title-extra %} | Home {% endblock %}
 
 {% block content %}
+
+
 <div class="row">
-  <div align="center">here - a graph showing the net worth change over time</div>
+  <div class="col-md-1"></div>
+  <div class="col-md-11">
+    <canvas id="net_worth_chart" height="100%"></canvas>
+  </div>
 </div>
 <div class="row">
     <div class="col-md-1">
@@ -69,4 +74,47 @@
     <a href="transaction/all" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-list"></span> View all Transactions</a>
   </div>
 </div>
+<script>
+window.chartColors = {
+	red: 'rgb(255, 99, 132)',
+	orange: 'rgb(255, 159, 64)',
+	yellow: 'rgb(255, 205, 86)',
+	green: 'rgb(75, 192, 192)',
+	blue: 'rgb(54, 162, 235)',
+	purple: 'rgb(153, 102, 255)',
+	grey: 'rgb(201, 203, 207)'
+};
+var ctx = document.getElementById("net_worth_chart");
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ labels | safe }},
+        datasets: [{
+            data: {{ data | safe }},
+            backgroundColor: window.chartColors.blue
+          }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }],
+            xAxes: [{
+              ticks:{
+                autoSkip:true,
+                maxRotation:0
+              }
+            }],
+            tooltips: {
+                enabled: true,
+                mode:'label',
+                position: 'nearest'
+            }
+        }
+    }
+});
+</script>
+
 {% endblock %}

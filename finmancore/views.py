@@ -15,7 +15,10 @@ from .forms import AccountForm, CreditForm, DebitForm, TransferForm, CategoryFor
 def home_view(request):
     accounts = Account.objects.all()
     transactions = Transaction.objects.all().select_subclasses().order_by('-time_of_transaction')[:20]
-    context = {'accounts': accounts, 'transactions':transactions}
+    net_worth = Transaction.objects.getNetWorthOverTime(None,None,'2017-01-01','2017-03-31')
+    label= [ str(value['date_created']) for value in net_worth ]
+    data=[ str(value['balance']) for value in net_worth ]
+    context = {'accounts': accounts, 'transactions':transactions,'net_worth':net_worth,'labels':label,'data':data}
     return render(request,'home.html',context)
 
 @login_required(login_url='/login')
