@@ -4,8 +4,8 @@ import operator
 from decimal import Decimal
 
 from django.db import models
-from django.db.models import Q
-from django.db.models import Sum
+from django.db.models import Q,Sum,Count
+from datetime import datetime, timedelta
 
 from model_utils.managers import InheritanceManager
 
@@ -17,6 +17,27 @@ class AccountManager(models.Manager):
         alldebits = Debit.objects.filter(from_account__id=account_id)
         alltransfers = Transfer.objects.filter(Q(from_account__id=account_id) | Q(to_account__id=account_id))
         transactions = sorted(itertools.chain(allcredits,alldebits,alltransfers),key=operator.attrgetter('time_of_transaction'),reverse=True)
+        return transactions
+
+class TransactionManager(InheritanceManager):
+    def balanceAsOf(self,asof_date):
+        balance = Transaction.objects.filter(time_of_transaction__lte = asof_date).aggregate(Sum('amount')).get('amount__sum', 0.00) or Decimal(0)
+        return balance
+
+    def getNetWorthOverTime(self,account_id,frequency,start_range,end_range):
+        transactions= []
+
+        start_range_date = datetime.strptime(start_range,'%Y-%m-%d')
+        end_range_date = datetime.strptime(end_range,'%Y-%m-%d')
+        no_of_days = abs((start_range_date - end_range_date).days) or 0
+
+        for i in range(no_of_days):
+            transaction = {}
+            date = (start_range_date + timedelta(i)).date()
+            transaction['date_created']=date
+            transaction['balance']=self.balanceAsOf(date)
+
+            transactions.append(transaction)
         return transactions
 
 class Account(models.Model):
@@ -62,7 +83,7 @@ class Transaction(models.Model):
     def __str__(self):
         return "<Transaction : "+str(self.id)+">"
 
-    objects = InheritanceManager()
+    objects = TransactionManager()
 
 class Transfer(Transaction):
     from_account = models.ForeignKey(Account,related_name='from_account')
