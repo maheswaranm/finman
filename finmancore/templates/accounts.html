@@ -3,12 +3,25 @@
 {% block title-extra %} | Account {{ this_account.label }} {% endblock %}
 
 {% block content %}
-Add new Transaction >
-<br/>
-<a href="/credit/new">Add new Credit</a>  |  <a href="/debit/new">Add new Debit</a> | <a href="/transfer/new">Add new Transfer</a>
-<br/>
-<div align="center">All transactions for {{ this_account.label }}</div>
-<table border="1" width="80%" align="center">
+
+<div class="page-header">
+  <h2><small>All transactions for </small><div align="center">{{ this_account.label }}</div></h2>
+</div>
+
+
+<div class="row">
+    <div class="col-md-4" align="center">
+      <a class="btn btn-success btn-lg" title="Credit" href="/credit/new">Add New Credit</a>
+    </div>
+    <div class="col-md-4" align="center">
+      <a class="btn btn-warning btn-lg" title="Debit" href="/debit/new">Add New Debit</a>
+    </div>
+    <div class="col-md-4" align="center">
+      <a class="btn btn-info btn-lg" title="Transfer" href="/transfer/new">Add New Transfer</span></a>
+    </div>
+  </div>
+
+<table width="80%" align="center" class="table table-stripe">
   <tr>
     <th>ID</th>
     <th>From</th>
