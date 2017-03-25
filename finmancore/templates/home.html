@@ -90,6 +90,7 @@ var myChart = new Chart(ctx, {
     data: {
         labels: {{ labels | safe }},
         datasets: [{
+            label:'Net Worth',
             data: {{ data | safe }},
             backgroundColor: window.chartColors.blue
           }]
