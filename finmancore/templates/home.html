@@ -6,35 +6,23 @@
 
 
 <div class="row">
-  <div class="col-md-1"></div>
-  <div class="col-md-11">
+  <div class="col-md-12">
     <canvas id="net_worth_chart" height="100%"></canvas>
   </div>
 </div>
 <div class="row">
-    <div class="col-md-1">
-        <script type="text/javascript">
-            $(function() {
-                $('[data-toggle="popover"]').popover({'container':'body'})
-            })
-        </script>
-        <button type="button" class="btn btn-default" data-toggle="popover" data-placement="right"
-          data-content='
-            <a title="Credit" href="/credit/new"><span class="glyphicon glyphicon-save" style="font-size:30px"></span></a>
-            <a title="Debit" href="/debit/new"><span class="glyphicon glyphicon-open" style="font-size:30px"></span></a>
-            <a title="Transfer" href="/transfer/new"><span class="glyphicon glyphicon-transfer" style="font-size:30px"></span></a>
-          '
-          data-html="true" title="Add Transaction">
-          <span class="glyphicon glyphicon-plus-sign" style="font-size:40px"></span>
-        </button>
+    <div class="col-md-4" align="center">
+      <a class="btn btn-success btn-lg" title="Credit" href="/credit/new">Add New Credit</a>
     </div>
-    <div class="col-md-11">
-      Last 20 transactions
+    <div class="col-md-4" align="center">
+      <a class="btn btn-warning btn-lg" title="Debit" href="/debit/new">Add New Debit</a>
+    </div>
+    <div class="col-md-4" align="center">
+      <a class="btn btn-info btn-lg" title="Transfer" href="/transfer/new">Add New Transfer</span></a>
     </div>
   </div>
   <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-11">
+    <div class="col-md-12">
         <table class="table table-striped">
             <tr>
                 <th>ID</th>
