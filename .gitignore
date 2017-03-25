@@ -21,3 +21,6 @@ tests/report/
 #ignore collectstatic items from libraries
 static/admin
 static/debug_toolbar
+
+#ignore venv link
+venv-activate
