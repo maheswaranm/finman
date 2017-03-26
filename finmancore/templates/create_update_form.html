@@ -1,10 +1,21 @@
 {% extends "base.html" %}
+{% load addcss_filters %}
 
 {% block content %}
-{{ form.errors }}
-<form action="{{ form_action }}" method="POST">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="Create"/>
+{{ form.non_field_errors }}
+<form class="form-horizontal" action="{{ form_action }}" method="POST" align="center">
+    {% csrf_token %}
+
+    {% for field in form %}
+    <div class="form-group">
+        {{ field.errors }}
+        <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+        <div class="col-sm-4" align="left">
+            {{ field | addcss:"form-control" }}
+        </div>
+    </div>
+    {% endfor %}
+    <div class="col-sm-4"> </div>
+      <input class="btn btn-primary" type="submit" value="Save" />
 </form>
 {% endblock %}
