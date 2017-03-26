@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-<a href="/category/new">Create New Category</a>
 
- <div align="center">List of categories</div>
+ <div class="page-header" align="center"><h2>All categories</h2></div>
 
-<table border="1" align="center">
+
+ <a class="btn btn-primary" href="/category/new">Create New Category</a>
+
+<table align="center" class="table table-striped">
   <tr>
     <th>Category</th>
     <th>Parent Category</th>
