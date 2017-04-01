@@ -3,6 +3,7 @@
 
 {% block content %}
   <form method="post" class="form-horizontal" align="center">
+    {% csrf_token %}
       <div style="padding-left:30%">
         <h2>Login</h2>
       </div>
