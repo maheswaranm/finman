@@ -20,7 +20,7 @@
        <ul class="dropdown-menu">
          {% for this_account in accounts %}
          <li>
-           <a href= "/account/{{ this_account.id }}">{{ this_account.label }}</a>
+           <a href= "/account/{{ this_account.id }}">{{ this_account.label }}<span class="badge pull-right">{{ this_account.balance }}</span></a>
          </li>
          {% endfor %}
          <li role="separator" class="divider"></li>
