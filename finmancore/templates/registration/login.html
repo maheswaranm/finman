@@ -1,10 +1,22 @@
 {% extends "base.html" %}
+{% load addcss_filters %}
 
 {% block content %}
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
+  <form method="post" class="form-horizontal" align="center">
+      <div style="padding-left:30%">
+        <h2>Login</h2>
+      </div>
+    {% for field in form %}
+    <div class="form-group">
+        {{ field.errors }}
+        <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+        <div class="col-sm-4" align="left">
+            {{ field | addcss:"form-control" }}
+        </div>
+    </div>
+    {% endfor %}
+    <div style="padding-left:30%">
+      <button type="submit" class="btn btn-primary">Login</button>
+    </div>
   </form>
 {% endblock %}
