@@ -25,7 +25,7 @@ SECRET_KEY = 'a+e_@dlea#z8*g!f$h$#+t27k8of&e*35-8xsws)vnn))3q3kv'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [os.environ['HEROKU_WEB_URL']]
 
 
 # Application definition
