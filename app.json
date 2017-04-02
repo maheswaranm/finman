@@ -33,5 +33,6 @@
         }
     },
     "scripts": {
+      "postdeploy":"bash heroku-scripts/heroku-post-deploy.sh"
     }
 }
