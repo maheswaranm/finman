@@ -9,7 +9,7 @@
             "description": "Debug on or off",
             "value": "False"
         },
-        "FINMAN_SECRET": {
+        "FINMAN_SECRET_KEY": {
             "description": "Secret for the Django App",
             "generator": "secret"
         },
