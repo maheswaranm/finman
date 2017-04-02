@@ -1,0 +1,29 @@
+{
+    "name": "FinMan",
+    "description": "A simple personal Finance Manager",
+    "website": "https://finman.maheswaranm.com",
+    "success_url": "/",
+    "addons": ["heroku-postgresql:hobby-dev"],
+    "env": {
+        "DJANGO_DEBUG": {
+            "description": "Debug on or off",
+            "value": "False"
+        },
+        "FINMAN_SECRET": {
+            "description": "Secret for the Django App",
+            "generator": "secret"
+        },
+        "ADMIN_USERNAME": {
+            "description": "Username for the admin user",
+            "required": true,
+            "value": "admin"
+        },
+        "PASSWORD": {
+            "description": "Password for the admin user",
+            "required": true
+        }
+    },
+    "scripts": {
+        "postdeploy": "python manage.py shell -c \"from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'adminpass')\""
+    }
+}
