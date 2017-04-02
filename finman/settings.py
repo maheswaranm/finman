@@ -25,11 +25,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ['FINMAN_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ['DJANGO_DEBUG']=="True"
+DEBUG = False #default False
+#change if debug exists
+if 'DJANGO_DEBUG' in os.environ:
+    DEBUG = os.environ['DJANGO_DEBUG']=="True"
 
 ALLOWED_HOSTS = []
-if 'HEROKU_WEB_URL' in os.environ:
-    ALLOWED_HOSTS.append(os.environ['HEROKU_WEB_URL'])
+
+#to allow all hosts if deployed in Heroku using "Deploy to Heroku" button
+if 'SECRET_HEROKU' in os.environ:
+    ALLOWED_HOSTS.append('*')
 if 'WEB_URL' in os.environ:
     ALLOWED_HOSTS.append(os.environ['WEB_URL'])
 
