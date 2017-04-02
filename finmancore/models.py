@@ -27,13 +27,11 @@ class TransactionManager(InheritanceManager):
     def getNetWorthOverTime(self,account_id,frequency,start_range,end_range):
         transactions= []
 
-        start_range_date = datetime.strptime(start_range,'%Y-%m-%d')
-        end_range_date = datetime.strptime(end_range,'%Y-%m-%d')
-        no_of_days = abs((start_range_date - end_range_date).days) or 0
+        no_of_days = abs((start_range - end_range).days) or 0
 
         for i in range(no_of_days):
             transaction = {}
-            date = (start_range_date + timedelta(i)).date()
+            date = (start_range + timedelta(i)).date()
             transaction['date_created']=date
             transaction['balance']=self.balanceAsOf(date)
 

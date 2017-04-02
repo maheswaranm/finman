@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
+from django.utils import timezone
 
 
 import logging
@@ -15,7 +16,11 @@ from .forms import AccountForm, CreditForm, DebitForm, TransferForm, CategoryFor
 def home_view(request):
     accounts = Account.objects.all()
     transactions = Transaction.objects.all().select_subclasses().order_by('-time_of_transaction')[:20]
-    net_worth = Transaction.objects.getNetWorthOverTime(None,None,'2017-01-01','2017-03-31')
+
+    oldest_transaction = Transaction.objects.all().order_by('time_of_transaction')[0:1].get()
+    oldest_transaction_date = oldest_transaction.time_of_transaction
+
+    net_worth = Transaction.objects.getNetWorthOverTime(None,None,oldest_transaction_date,timezone.now())
     label= [ str(value['date_created']) for value in net_worth ]
     data=[ str(value['balance']) for value in net_worth ]
     context = {'accounts': accounts, 'transactions':transactions,'net_worth':net_worth,'labels':label,'data':data}
