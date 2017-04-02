@@ -1,5 +1,15 @@
-# finman
-A simple finance manager ( Work In Progress )
+# FinMan
+A simple finance manager
+
+See a demo [here](https://finman-demo.herokuapp.com/)
+
+Username: demo
+Password: finman-demo
+
+
+Deploy to your own Heroku Dyno.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 A finance manager to keep track of all your finance - fully manually. :)
 
