@@ -22,12 +22,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'a+e_@dlea#z8*g!f$h$#+t27k8of&e*35-8xsws)vnn))3q3kv'
+SECRET_KEY = os.environ['FINMAN_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ['DJANGO_DEBUG']=="True"
 
-ALLOWED_HOSTS = [os.environ['HEROKU_WEB_URL']]
+ALLOWED_HOSTS = []
+if 'HEROKU_WEB_URL' in os.environ:
+    ALLOWED_HOSTS.append(os.environ['HEROKU_WEB_URL'])
+if 'WEB_URL' in os.environ:
+    ALLOWED_HOSTS.append(os.environ['WEB_URL'])
 
 
 # Application definition
@@ -39,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'debug_toolbar'
 ]
@@ -123,7 +128,7 @@ INTERNAL_IPS = ['localhost','127.0.0.1']
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = '/home'
