@@ -17,8 +17,11 @@ def home_view(request):
     accounts = Account.objects.all()
     transactions = Transaction.objects.all().select_subclasses().order_by('-time_of_transaction')[:20]
 
-    oldest_transaction = Transaction.objects.all().order_by('time_of_transaction')[0:1].get()
-    oldest_transaction_date = oldest_transaction.time_of_transaction
+    try:
+        oldest_transaction = Transaction.objects.all().order_by('time_of_transaction')[0:1].get()
+        oldest_transaction_date = oldest_transaction.time_of_transaction
+    except Transaction.DoesNotExist:
+        oldest_transaction_date = timezone.now()
 
     net_worth = Transaction.objects.getNetWorthOverTime(None,None,oldest_transaction_date,timezone.now())
     label= [ str(value['date_created']) for value in net_worth ]
